@@ -1,6 +1,7 @@
 import glob
 import os
 import shutil
+from datetime import datetime
 from PIL.ExifTags import TAGS
 from PIL import Image
 
@@ -17,7 +18,8 @@ def getDate(path):
         date = exif_date[:10]
     elif path.endswith(".mp4"):
         mdate = os.path.getmtime(path)
-        print(mdate)
+        date = datetime.fromtimestamp(mdate).strftime('%Y-%m-%d')
+        print(date)
     return date
 
 #       Loops through every file in the source foldr
@@ -26,7 +28,7 @@ for path in glob.glob(photo_from+'/*'):
     year = f_date[:4]
     month = f_date[5:7]
 
-#    if dev: print("Y = ", year, " M = ", month)
+    print("Y = ", year, " M = ", month)
     destination = photo_to + "\\" + year + "\\" + month
 
 #       If the path doesnt exist, create it
@@ -36,5 +38,5 @@ for path in glob.glob(photo_from+'/*'):
 
 #       Copy the file to the sorted destination
     shutil.copy2(path, destination)
-#    print(path, " MOVED TO ", destination)
+    print(path, " MOVED TO ", destination)
     
